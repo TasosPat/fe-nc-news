@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getArticleByID } from "../../utils/api";
 import {
   StyledArticleInfoContainer,
@@ -17,7 +17,11 @@ function ArticleInfo() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { article_id } = useParams();
-  console.log(article_id);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/articles/${article_id}/comments`);
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -66,6 +70,7 @@ function ArticleInfo() {
           <span>Author: {article.author}</span>
         </ArticleMeta>
       </ArticleDetails>
+      <button onClick={handleClick}>Show Comments</button>
     </StyledArticleInfoContainer>
   );
 }
