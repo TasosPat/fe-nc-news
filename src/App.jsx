@@ -5,7 +5,6 @@ import {
   Articles,
   ArticleInfo,
   Header,
-  Comments,
   Topics
 } from "./components";
 import { AppWrapper } from "./styles/styles";
@@ -21,7 +20,6 @@ function App() {
           <Routes>
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:article_id" element={<ArticleInfo />} />
-            <Route path="/articles/:article_id/comments" element={<Comments />} />
           </Routes>
           </AppWrapper>
       </ThemeProvider>

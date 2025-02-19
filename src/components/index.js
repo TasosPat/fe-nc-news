@@ -3,7 +3,6 @@ import ArticleInfo from "./ArticleInfo";
 import Topics from "./Topics";
 import Header from "./Header";
 import Navbar from "./Navbar";
-import Comments from "./Comments";
 
 export {
   Articles,
@@ -11,5 +10,4 @@ export {
   Header,
   Navbar,
   ArticleInfo,
-  Comments
 };
