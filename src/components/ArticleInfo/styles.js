@@ -108,3 +108,37 @@ export const ErrorMessage = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   margin: ${({ theme }) => theme.spacing.xl} 0;
 `;
+
+export const StyledCommentList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.md};
+  }
+`;
+
+export const StyledCommentCard = styled.div`
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.large};
+  padding: ${({ theme }) => theme.spacing.md};
+  cursor: pointer;
+  background: ${({ theme }) => theme.colors.background.main};
+  transition: ${({ theme }) => theme.transitions.default};
+
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: ${({ theme }) => theme.borderRadius.medium};
+    margin-bottom: ${({ theme }) => theme.spacing.sm};
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow};
+  }
+`;

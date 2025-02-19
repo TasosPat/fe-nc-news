@@ -19,4 +19,8 @@ export const getCommentsbyArtID = (id) => {
   return ncNews.get(`/articles/${id}/comments`).then(({ data }) => data.comments);
 }
 
+export const updateArticleVotes = ({ inc_votes }, id) => {
+  return ncNews.patch(`/articles/${id}`, { inc_votes }).then(({ data }) => data.article.votes);
+}
+
 export default ncNews;
