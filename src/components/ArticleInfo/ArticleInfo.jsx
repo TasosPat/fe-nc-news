@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getArticleByID, updateArticleVotes, getCommentsbyArtID } from "../../utils/api";
+import { useParams } from "react-router-dom";
+import { getArticleByID, updateArticleVotes, getCommentsbyArtID, addCommentToArticle } from "../../utils/api";
 import { StyledPage } from "./styles";
 import CommentList from "./CommentList";
 import {
@@ -16,19 +16,14 @@ import {
 
 
 function ArticleInfo() {
-  // const [isVisible, setIsVisible] = useState(false);
+  const [newComment, setNewComment] = useState("");
   const [votes, setVotes] = useState(0);
   const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { article_id } = useParams();
-  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
  
-  const handleClick = () => {
-    
-  };
-
   useEffect(() => {
     setIsLoading(true);
     setError(null);
@@ -47,10 +42,6 @@ function ArticleInfo() {
         setComments(commentData);
         setIsLoading(false);
       })
-      .catch(() => {
-        setError("Failed to load comments");
-        setIsLoading(false);
-      });
   }, [article_id]);
 
 
@@ -69,6 +60,30 @@ function ArticleInfo() {
   if (!article) {
     return <ErrorMessage>article not found</ErrorMessage>;
   }
+
+  const handleInputChange = (e) => {
+    setNewComment(e.target.value);
+  }
+  const handleSubmit = (e) => {
+    if (!newComment.trim()) {
+      setError("Comment cannot be empty!");
+      return;
+    }
+    const commentData = {
+      username: "grumpy19",
+      body: newComment
+    };
+    addCommentToArticle(commentData, article_id)
+    .then((comment) => {
+      setComments((prevComments) => [comment, ...prevComments])
+    })
+    .catch(() => {
+      setError("Failed to post comment. Please try again.");
+      setComments((prevComments) => prevComments.slice(-1));
+    });
+    setNewComment("");
+    document.getElementById("new-comment").value = "";
+  };
 
   const handleVotes = (newVotes) => {
     setVotes((currentVotes) => currentVotes + newVotes);
@@ -103,6 +118,9 @@ function ArticleInfo() {
       <StyledPage>
       <CommentList comments={comments} />
     </StyledPage>
+    <label htmlFor="new-comment">Add Comment:</label>
+  <input type="text" onChange={handleInputChange} id="new-comment" name="new-comment"/>
+  <button onClick={handleSubmit}>Post Comment</button>
     </StyledArticleInfoContainer>
   );
 }

@@ -23,4 +23,8 @@ export const updateArticleVotes = ({ inc_votes }, id) => {
   return ncNews.patch(`/articles/${id}`, { inc_votes }).then(({ data }) => data.article.votes);
 }
 
+export const addCommentToArticle = (newComment, id) => {
+  return ncNews.post(`/articles/${id}/comments`, newComment).then(({ data }) => data.comment);
+}
+
 export default ncNews;
