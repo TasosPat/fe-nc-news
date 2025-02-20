@@ -5,7 +5,6 @@ function TopicCard({ topic }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    {console.log(topic)}
     navigate(`/articles/?topic=${topic.slug}`)
   };
 
