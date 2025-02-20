@@ -31,4 +31,8 @@ export const deleteArticleComment = (comment_id) => {
   return ncNews.delete(`/comments/${comment_id}`).then(() => {});
 }
 
+export const getTopics = () => {
+  return ncNews.get('/topics', getTopics).then(({ data }) => data.topics);
+}
+
 export default ncNews;
