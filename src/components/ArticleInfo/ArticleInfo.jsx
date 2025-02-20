@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleByID, updateArticleVotes, getCommentsbyArtID, addCommentToArticle } from "../../utils/api";
+import { getArticleByID, updateArticleVotes } from "../../utils/api";
 import { StyledPage } from "./styles";
 import CommentList from "./CommentList";
 import {
@@ -16,13 +16,11 @@ import {
 
 
 function ArticleInfo() {
-  const [newComment, setNewComment] = useState("");
   const [votes, setVotes] = useState(0);
   const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { article_id } = useParams();
-  const [comments, setComments] = useState([]);
  
   useEffect(() => {
     setIsLoading(true);
@@ -37,11 +35,7 @@ function ArticleInfo() {
         setError(err.message || "Failed to load article");
         setIsLoading(false);
       });
-      getCommentsbyArtID(article_id)
-      .then((commentData) => {
-        setComments(commentData);
-        setIsLoading(false);
-      })
+     
   }, [article_id]);
 
 
@@ -60,30 +54,6 @@ function ArticleInfo() {
   if (!article) {
     return <ErrorMessage>article not found</ErrorMessage>;
   }
-
-  const handleInputChange = (e) => {
-    setNewComment(e.target.value);
-  }
-  const handleSubmit = (e) => {
-    if (!newComment.trim()) {
-      setError("Comment cannot be empty!");
-      return;
-    }
-    const commentData = {
-      username: "grumpy19",
-      body: newComment
-    };
-    addCommentToArticle(commentData, article_id)
-    .then((comment) => {
-      setComments((prevComments) => [comment, ...prevComments])
-    })
-    .catch(() => {
-      setError("Failed to post comment. Please try again.");
-      setComments((prevComments) => prevComments.slice(-1));
-    });
-    setNewComment("");
-    document.getElementById("new-comment").value = "";
-  };
 
   const handleVotes = (newVotes) => {
     setVotes((currentVotes) => currentVotes + newVotes);
@@ -116,11 +86,8 @@ function ArticleInfo() {
       </ArticleDetails>
       <button onClick={() => {handleVotes(1)}}>Vote +1</button>
       <StyledPage>
-      <CommentList comments={comments} />
+      <CommentList />
     </StyledPage>
-    <label htmlFor="new-comment">Add Comment:</label>
-  <input type="text" onChange={handleInputChange} id="new-comment" name="new-comment"/>
-  <button onClick={handleSubmit}>Post Comment</button>
     </StyledArticleInfoContainer>
   );
 }

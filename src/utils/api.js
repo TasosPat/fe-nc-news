@@ -27,4 +27,8 @@ export const addCommentToArticle = (newComment, id) => {
   return ncNews.post(`/articles/${id}/comments`, newComment).then(({ data }) => data.comment);
 }
 
+export const deleteArticleComment = (comment_id) => {
+  return ncNews.delete(`/comments/${comment_id}`).then(() => {});
+}
+
 export default ncNews;
