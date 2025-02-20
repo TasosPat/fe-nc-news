@@ -7,6 +7,7 @@ function CommentCard({ comment }) {
       <p>{comment.body}</p>
       <p>{comment.author}</p>
       <p>{comment.votes}</p>
+      {comment.author === "grumpy19" ? <button onClick={() => {}}>Delete Comment</button> : null}
     </StyledCommentCard>
   );
 }
