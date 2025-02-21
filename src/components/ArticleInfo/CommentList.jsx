@@ -2,6 +2,7 @@ import { StyledCommentList } from "./styles";
 import { getCommentsbyArtID, addCommentToArticle } from "../../utils/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext";
 import CommentCard from "./CommentCard";
 import {
   LoadingWrapper,
@@ -14,6 +15,7 @@ function CommentList() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { article_id } = useParams();
+ const { currentUser } = useAuth();
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,9 +40,10 @@ function CommentList() {
       return;
     }
     const commentData = {
-      username: "grumpy19",
+      username: "",
       body: newComment
     };
+    if (currentUser) commentData.username = currentUser.username;
     addCommentToArticle(commentData, article_id)
     .then((comment) => {
       setComments((prevComments) => [comment, ...prevComments])

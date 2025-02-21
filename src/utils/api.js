@@ -32,7 +32,11 @@ export const deleteArticleComment = (comment_id) => {
 }
 
 export const getTopics = () => {
-  return ncNews.get('/topics', getTopics).then(({ data }) => data.topics);
+  return ncNews.get('/topics').then(({ data }) => data.topics);
+}
+
+export const getUserByUsername = (username) => {
+  return ncNews.get(`/users/${username}`).then(({ data }) => data.user);
 }
 
 export default ncNews;

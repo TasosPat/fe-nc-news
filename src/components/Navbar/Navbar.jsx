@@ -13,6 +13,9 @@ function Navbar() {
         <li>
           <StyledLink to="/articles">Recent Articles</StyledLink>
         </li>
+        <li>
+          <StyledLink to="/profile">Profile</StyledLink>
+        </li>
       </StyledNavbar>
     </nav>
   );

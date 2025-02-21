@@ -4,6 +4,8 @@ import Topics from "./Topics";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Error from "./Error";
+import Login from "./Login";
+import Profile from "./Profile";
 
 export {
   Articles,
@@ -11,5 +13,7 @@ export {
   Header,
   Navbar,
   ArticleInfo,
-  Error
+  Error,
+  Login,
+  Profile
 };
