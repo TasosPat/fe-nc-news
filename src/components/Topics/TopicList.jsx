@@ -4,7 +4,6 @@ import { StyledTopicList } from "./styles";
 function TopicList({ topics }) {
   return (
     <StyledTopicList>
-      {/* <TopicCard key="all" topic={{ slug: "All Items" }} /> */}
       {topics.map((topic) => (
         <TopicCard key={topic.slug} topic={topic} />
       ))}

@@ -9,11 +9,25 @@ function Articles() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
-  const topic = searchParams.get("topic");
+  const [sortBy, setSortBy] = useState(searchParams.get("sort_by") || "created_at");
+  const [order, setOrder] = useState(searchParams.get("order") || "asc");
+  const [topic, setTopic] = useState(searchParams.get("topic") || "");
+
+  const handleSortByChange = (e) => {
+    setSortBy(e.target.value);
+  }
+
+  const handleOrderChange = (e) => {
+    setOrder(e.target.value);
+  }
+
+  const handleTopicChange = (e) => {
+    setTopic(e.target.value);
+  }
 
   useEffect(() => {
     setIsLoading(true);
-    getArticles(topic)
+    getArticles(sortBy, order, topic)
       .then((articleData) => {
         setArticles(articleData);
         setIsLoading(false);
@@ -22,17 +36,32 @@ function Articles() {
         setError("Failed to load articles");
         setIsLoading(false);
       });
-  }, [topic]);
+  }, [sortBy, order, topic]);
 
   if (isLoading) return <p>Loading articles...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <StyledPage>
+           <label htmlFor="sort-by">Sort By:</label>
+<select className="dropdown" name="sort-by" id="sort-by" onChange={handleSortByChange}>
+  <option value="title">Title</option>
+  <option value="topic">Topic</option>
+  <option value="author">Author</option>
+  <option value="created_at">Created At</option>
+  <option value="votes">Votes</option>
+</select>
+
+<label htmlFor="order">Order</label>
+<select className="dropdown" name="order" id="order" onChange={handleOrderChange}>
+  <option value="asc">Ascending</option>
+  <option value="desc">Descending</option>
+</select>
       <StyledTitle>
         {topic ? `${topic} Articles` : "All Articles"}
       </StyledTitle>
       <ArticleList articles={articles} />
+ 
     </StyledPage>
   );
 }

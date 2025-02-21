@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { StyledArticleList } from "./styles";
 import ArticleCard from "./ArticleCard";
 
 function ArticleList({ articles }) {
+  
   return (
     <StyledArticleList>
       {articles.map((article) => (

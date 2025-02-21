@@ -4,8 +4,8 @@ const ncNews = axios.create({
   baseURL: "https://news-api-uzma.onrender.com/api"
 });
 
-export const getArticles = (topic) => {
-    const params = { topic };
+export const getArticles = (sort_by, order, topic) => {
+    const params = { sort_by, order, topic };
 return ncNews
   .get("/articles", { params })
   .then(({ data }) => data.articles);
