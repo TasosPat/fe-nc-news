@@ -1,10 +1,10 @@
 import { StyledCommentCard } from "./styles";
 import { deleteArticleComment } from "../../utils/api";
-
-
+import { useAuth } from "../../contexts/authContext";
 
 function CommentCard({ comment, setComments }) {
 
+  const { currentUser } = useAuth();
   const comment_id = comment.comment_id;
   return (
     <StyledCommentCard>
@@ -12,7 +12,7 @@ function CommentCard({ comment, setComments }) {
       <p>{comment.body}</p>
       <p>{comment.author}</p>
       <p>{comment.votes}</p>
-      {comment.author === "grumpy19" ? <button onClick={() => {deleteArticleComment(comment_id)
+      {currentUser && comment.author === currentUser.username ? <button onClick={() => {deleteArticleComment(comment_id)
       .then(() => {
         setComments((currComments) => currComments.filter((comment) => comment.comment_id !== comment_id))
       })
