@@ -45,7 +45,8 @@ function CommentList() {
     .then((comment) => {
       setComments((prevComments) => [comment, ...prevComments])
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       setError("Failed to post comment. Please try again.");
       setComments((prevComments) => prevComments.slice(-1));
     });

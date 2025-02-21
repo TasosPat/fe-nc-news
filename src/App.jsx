@@ -5,7 +5,8 @@ import {
   Articles,
   ArticleInfo,
   Header,
-  Topics
+  Topics,
+  Error
 } from "./components";
 import { AppWrapper } from "./styles/styles";
 import { theme } from "./styles/theme";
@@ -21,6 +22,7 @@ function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:article_id" element={<ArticleInfo />} />
             <Route path="/topics" element={<Topics />} />
+            <Route path="/*" element={<Error />} />
           </Routes>
           </AppWrapper>
       </ThemeProvider>
