@@ -32,7 +32,8 @@ function ArticleInfo() {
         setIsLoading(false);
       })
       .catch((err) => {
-        setError(err.message || "Failed to load article");
+        console.log(err);
+        setError(err.response.data.msg || "Failed to load article");
         setIsLoading(false);
       });
      

@@ -32,8 +32,8 @@ function Articles() {
         setArticles(articleData);
         setIsLoading(false);
       })
-      .catch(() => {
-        setError("Failed to load articles");
+      .catch((err) => {
+        setError(err.response.data.msg || "Failed to load articles");
         setIsLoading(false);
       });
   }, [sortBy, order, topic]);
