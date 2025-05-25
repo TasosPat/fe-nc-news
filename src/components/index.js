@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Error from "./Error";
 import Login from "./Login";
 import Profile from "./Profile";
+import Home from "./Home"
 
 export {
   Articles,
@@ -15,5 +16,6 @@ export {
   ArticleInfo,
   Error,
   Login,
-  Profile
+  Profile,
+  Home
 };

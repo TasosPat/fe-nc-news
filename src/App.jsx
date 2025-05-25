@@ -8,7 +8,8 @@ import {
   Topics,
   Error,
   Login,
-  Profile
+  Profile,
+  Home
 } from "./components";
 import { AppWrapper } from "./styles/styles";
 import { theme } from "./styles/theme";
@@ -22,6 +23,7 @@ function App() {
         <Header />
         <AppWrapper>
           <Routes>
+          <Route path="/" element={<Home />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:article_id" element={<ArticleInfo />} />
             <Route path="/topics" element={<Topics />} />
