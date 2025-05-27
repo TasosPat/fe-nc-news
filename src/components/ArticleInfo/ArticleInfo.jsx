@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleByID, updateArticleVotes } from "../../utils/api";
 import { StyledPage } from "./styles";
+import { useAuth } from "../../contexts/authContext";
 import CommentList from "./CommentList";
 import {
   StyledArticleInfoContainer,
@@ -21,8 +22,15 @@ function ArticleInfo() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { article_id } = useParams();
+  const { currentUser } = useAuth();
+  const [hasVoted, setHasVoted] = useState(false);
+
  
   useEffect(() => {
+    if (currentUser) {
+      const voteKey = `voted-article-${article_id}-${currentUser.username}`;
+      setHasVoted(localStorage.getItem(voteKey) === "true");
+    }
     setIsLoading(true);
     setError(null);
     getArticleByID(article_id)
@@ -37,7 +45,7 @@ function ArticleInfo() {
         setIsLoading(false);
       });
      
-  }, [article_id]);
+  }, [currentUser, article_id]);
 
 
   if (isLoading) {
@@ -56,14 +64,27 @@ function ArticleInfo() {
     return <ErrorMessage>article not found</ErrorMessage>;
   }
 
-  const handleVotes = (newVotes) => {
-    setVotes((currentVotes) => currentVotes + newVotes);
+  const handleVotes = () => {
+    if(!currentUser) {
+      setError("Please log in to vote.");
+      return;
+    }
+    const voteKey = `voted-article-${article_id}-${currentUser.username}`;
+    const voteChange = hasVoted ? -1 : 1;
+    setVotes((currentVotes) => currentVotes + voteChange);
+    setHasVoted(!hasVoted);
+    if (hasVoted) {
+      localStorage.removeItem(voteKey);
+    } else {
+      localStorage.setItem(voteKey, "true");
+    }
+
     setError(null);
-    updateArticleVotes({ inc_votes: newVotes }, article_id)
+    updateArticleVotes({ inc_votes: voteChange }, article_id)
     .then(() => {})
     .catch((err) => {
-      setVotes((currentVotes) => currentVotes - newVotes);
-      setError("Your vote was not successful. Please try again!");
+      setVotes((currentVotes) => currentVotes - voteChange);
+      setError("Action unsuccessful. Please try again!");
     });
   };
 
@@ -85,7 +106,7 @@ function ArticleInfo() {
           <span>Votes: {votes}</span>
         </ArticleMeta>
       </ArticleDetails>
-      <button onClick={() => {handleVotes(1)}}>Vote +1</button>
+      <button onClick={() => {handleVotes()}} disabled={!currentUser}>{hasVoted ? "Undo Vote" : "Vote +1"}</button>
       <StyledPage>
       <CommentList />
     </StyledPage>
